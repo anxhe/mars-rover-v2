@@ -60,7 +60,7 @@ function moveForward(rover){
       rover.position[0] -= 1;
       break;
     }
-  rover.travelLog.push(rover.position)
+  rover.travelLog.push([rover.position[0], rover.position[1]])
 }
 
 
