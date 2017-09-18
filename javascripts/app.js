@@ -44,8 +44,26 @@ function turnRight(rover){
   }
 }
 
+function precipitate(rover){
+  if (rover.direction == "N" && rover.position[1] == 9){
+    return true;
+  }
+  else if (rover.direction == "S" && rover.position[1] == 0){
+    return true;
+  }
+  else if (rover.direction == "E" && rover.position[0] == 9){
+    return true;
+  }
+  else if (rover.direction == "W" && rover.position[0] == 0){
+    return true;
+  }
+}
+
 function moveForward(rover){
   console.log("moveForward was called");
+  if (precipitate(rover))
+    return console.error("Hey, con ese movimiento el rover se precipitará");
+
   switch (rover.direction) {
     case "N":
       rover.position[1] += 1;
@@ -63,7 +81,6 @@ function moveForward(rover){
   rover.travelLog.push([rover.position[0], rover.position[1]])
 }
 
-
 function move(string){
   for(var i = 0; i < string.length; i++) {
     if (string[i] == "f") {
@@ -76,7 +93,7 @@ function move(string){
         turnLeft(rover);
     }
     else {
-      console.error("Hey, ese no es un movimiento")
+      console.error("Hey, ese no es un movimiento");
     }
   }
 }
