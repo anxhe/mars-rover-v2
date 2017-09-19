@@ -44,7 +44,7 @@ function turnRight(rover){
   }
 }
 
-function precipitate(rover){
+function checkForwardBounderies(rover){
   if (rover.direction == "N" && rover.position[1] == 9){
     return true;
   }
@@ -61,7 +61,7 @@ function precipitate(rover){
 
 function moveForward(rover){
   console.log("moveForward was called");
-  if (precipitate(rover))
+  if (checkForwardBounderies(rover))
     return console.error("Hey, con ese movimiento el rover se precipitará");
 
   switch (rover.direction) {
@@ -81,6 +81,43 @@ function moveForward(rover){
   rover.travelLog.push([rover.position[0], rover.position[1]])
 }
 
+function checkBackwardBounderies(rover){
+  if (rover.direction == "N" && rover.position[1] == 0){
+    return true;
+  }
+  else if (rover.direction == "E" && rover.position[0] == 0){
+    return true;
+  }
+  else if (rover.direction == "S" && rover.position[1] == 9){
+    return true;
+  }
+  else if (rover.direction == "W" && rover.position[0] == 9){
+    return true;
+  }
+}
+
+function moveBackward(rover){
+  console.log("moveBackward was called");
+  if (checkBackwardBounderies(rover))
+    return console.error("Hey, con ese movimiento el rover se precipitará");
+
+  switch (rover.direction) {
+    case "N":
+      rover.position[1] -= 1;
+      break;
+    case "E":
+      rover.position[0] -= 1;
+      break;
+    case "S":
+      rover.position[1] += 1;
+      break;
+    case "W":
+      rover.position[0] += 1;
+      break;
+    }
+  rover.travelLog.push([rover.position[0], rover.position[1]])
+}
+
 function move(string){
   for(var i = 0; i < string.length; i++) {
     if (string[i] == "f") {
@@ -91,6 +128,9 @@ function move(string){
     }
     else if (string[i] == "l") {
         turnLeft(rover);
+    }
+    else if (string[i] == "b") {
+        moveBackward(rover);
     }
     else {
       console.error("Hey, ese no es un movimiento");
