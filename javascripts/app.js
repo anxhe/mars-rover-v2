@@ -8,6 +8,39 @@ var rover = {
  }
 
 // ======================
+// Grid
+// ======================
+
+var grid = [
+  ["X", 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
+  [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
+  [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
+  [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
+  [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
+  [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
+  [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
+  [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
+  [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
+  [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
+]
+
+window.onload = function(){
+  table(grid);
+}
+
+function table(grid){
+  var html = "<table>"
+  for (var row = 0; row < grid.length; row++){
+    html += "<tr>"
+    for (var col = 0; col < grid[row].length; col++){
+        html += "<td>" + grid[row][col] + "</td>";
+    }
+    html += "</tr>"
+  }
+  html += "</table>"
+  document.body.innerHTML = html;
+}
+
 function turnLeft(rover){
   console.log("turnLeft was called!");
   switch (rover.direction) {
@@ -45,10 +78,10 @@ function turnRight(rover){
 }
 
 function checkForwardBounderies(rover){
-  if (rover.direction == "N" && rover.position[1] == 9){
+  if (rover.direction == "N" && rover.position[1] == 0){
     return true;
   }
-  else if (rover.direction == "S" && rover.position[1] == 0){
+  else if (rover.direction == "S" && rover.position[1] == 9){
     return true;
   }
   else if (rover.direction == "E" && rover.position[0] == 9){
@@ -64,31 +97,35 @@ function moveForward(rover){
   if (checkForwardBounderies(rover))
     return console.error("Hey, con ese movimiento el rover se precipitará");
 
+  grid[rover.position[1]][rover.position[0]] = 0;
   switch (rover.direction) {
     case "N":
-      rover.position[1] += 1;
+      rover.position[1] -= 1;
       break;
     case "E":
       rover.position[0] += 1;
       break;
     case "S":
-      rover.position[1] -= 1;
+      rover.position[1] += 1;
       break;
     case "W":
       rover.position[0] -= 1;
       break;
     }
-  rover.travelLog.push([rover.position[0], rover.position[1]])
+
+  grid[rover.position[1]][rover.position[0]] = "X"
+  table(grid);
+  rover.travelLog.push([rover.position[1], rover.position[0]]);
 }
 
 function checkBackwardBounderies(rover){
-  if (rover.direction == "N" && rover.position[1] == 0){
+  if (rover.direction == "N" && rover.position[1] == 9){
     return true;
   }
   else if (rover.direction == "E" && rover.position[0] == 0){
     return true;
   }
-  else if (rover.direction == "S" && rover.position[1] == 9){
+  else if (rover.direction == "S" && rover.position[1] == 0){
     return true;
   }
   else if (rover.direction == "W" && rover.position[0] == 9){
@@ -101,21 +138,24 @@ function moveBackward(rover){
   if (checkBackwardBounderies(rover))
     return console.error("Hey, con ese movimiento el rover se precipitará");
 
+  grid[rover.position[1]][rover.position[0]] = 0
   switch (rover.direction) {
     case "N":
-      rover.position[1] -= 1;
+      rover.position[1] += 1;
       break;
     case "E":
       rover.position[0] -= 1;
       break;
     case "S":
-      rover.position[1] += 1;
+      rover.position[1] -= 1;
       break;
     case "W":
       rover.position[0] += 1;
       break;
     }
-  rover.travelLog.push([rover.position[0], rover.position[1]])
+  grid[rover.position[1]][rover.position[0]] = "X";
+  table(grid);
+  rover.travelLog.push([rover.position[1], rover.position[0]]);
 }
 
 function move(string){
