@@ -1,11 +1,43 @@
 // Rover Object Goes Here
 // ======================
 
-var rover = {
-   direction: "N",
-   position: [0,0],
-   travelLog: []
- }
+var moveFunc = function(string){
+  for(var i = 0; i < string.length; i++) {
+    if (string[i] == "f") {
+        moveForward(this);
+    }
+    else if (string[i] == "r") {
+        turnRight(this);
+    }
+    else if (string[i] == "l") {
+        turnLeft(this);
+    }
+    else if (string[i] == "b") {
+        moveBackward(this);
+    }
+    else {
+      console.error("Hey, ese no es un movimiento");
+    }
+  }
+}
+
+var rover_x = {
+  name: "Pathfinder",
+  symbol: "X",
+  move: moveFunc,
+  direction: "N",
+  position: [0,0],
+  travelLog: []
+}
+
+var rover_t = {
+  name: "Curiosity",
+  symbol: "T",
+  move: moveFunc,
+  direction: "N",
+  position: [0,9],
+  travelLog: []
+}
 
 // ======================
 // Grid
@@ -21,7 +53,7 @@ var grid = [
   [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
   [0, 0, "rocas", 0, 0, 0 ,0 ,0 ,0 ,0],
   [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
-  [0, 0, 0, 0, 0, 0 ,"rocas" ,0 ,0 ,0],
+  ["T", 0, 0, 0, 0, 0 ,"rocas" ,0 ,0 ,0],
 ]
 
 console.table(grid);
@@ -99,8 +131,9 @@ function moveForward(rover){
   if (checkForwardBounderies(rover))
     return console.error("Hey, con ese movimiento el rover se precipitará");
 
-  if (checkObstaculesForward(rover))
-    return console.error("Hey, rocas");
+  var obstacule = checkObstaculesForward(rover);
+  if (obstacule)
+    return console.error("Hey, que te chocas con " + obstacule);
 
   grid[rover.position[1]][rover.position[0]] = 0;
   switch (rover.direction) {
@@ -118,7 +151,7 @@ function moveForward(rover){
       break;
     }
 
-  grid[rover.position[1]][rover.position[0]] = "X"
+  grid[rover.position[1]][rover.position[0]] = rover.symbol;
   table(grid);
   rover.travelLog.push([rover.position[1], rover.position[0]]);
 }
@@ -143,8 +176,9 @@ function moveBackward(rover){
   if (checkBackwardBounderies(rover))
     return console.error("Hey, con ese movimiento el rover se precipitará");
 
-  if (checkObstaculesBackward(rover))
-    return console.error("Hey, rocas");
+  var obstacule = checkObstaculesBackward(rover)
+  if (obstacule)
+    return console.error("Hey, que te chocas con " + obstacule);
 
   grid[rover.position[1]][rover.position[0]] = 0
   switch (rover.direction) {
@@ -161,7 +195,7 @@ function moveBackward(rover){
       rover.position[0] += 1;
       break;
     }
-  grid[rover.position[1]][rover.position[0]] = "X";
+  grid[rover.position[1]][rover.position[0]] = rover.symbol;
   table(grid);
   rover.travelLog.push([rover.position[1], rover.position[0]]);
 }
@@ -169,16 +203,24 @@ function moveBackward(rover){
 function checkObstaculesBackward(rover){
   switch (rover.direction) {
     case "N":
-      return grid[rover.position[1] + 1][rover.position[0]] == "rocas";
+      if (grid[rover.position[1] + 1][rover.position[0]] != 0){
+        return grid[rover.position[1] + 1][rover.position[0]];
+      }
       break;
     case "E":
-      return grid[rover.position[1]][rover.position[0] - 1] == "rocas";
+      if (grid[rover.position[1]][rover.position[0] - 1] != 0){
+        return grid[rover.position[1]][rover.position[0] - 1];
+      }
       break;
     case "S":
-      return grid[rover.position[1] - 1][rover.position[0]] == "rocas";
+      if (grid[rover.position[1] - 1][rover.position[0]] != 0){
+        return grid[rover.position[1] - 1][rover.position[0]];
+      }
       break;
     case "W":
-      return grid[rover.position[1]][rover.position[0] + 1] == "rocas";
+      if (grid[rover.position[1]][rover.position[0] + 1] != 0){
+        return grid[rover.position[1]][rover.position[0] + 1];
+      }
       break;
     }
 }
@@ -186,36 +228,24 @@ function checkObstaculesBackward(rover){
 function checkObstaculesForward(rover){
   switch (rover.direction) {
     case "N":
-      return grid[rover.position[1] - 1][rover.position[0]] == "rocas";
+      if (grid[rover.position[1] - 1][rover.position[0]] != 0){
+        return grid[rover.position[1] - 1][rover.position[0]];
+      }
       break;
     case "E":
-      return grid[rover.position[1]][rover.position[0] + 1] == "rocas";
+      if (grid[rover.position[1]][rover.position[0] + 1] != 0){
+        return grid[rover.position[1]][rover.position[0] + 1];
+      }
       break;
     case "S":
-      return grid[rover.position[1] + 1][rover.position[0]] == "rocas";
+      if (grid[rover.position[1] + 1][rover.position[0]] != 0){
+        return grid[rover.position[1] + 1][rover.position[0]];
+      }
       break;
     case "W":
-      return grid[rover.position[1]][rover.position[0] - 1] == "rocas";
+      if (grid[rover.position[1]][rover.position[0] - 1] != 0){
+        return grid[rover.position[1]][rover.position[0] - 1];
+      }
       break;
     }
-}
-
-function move(string){
-  for(var i = 0; i < string.length; i++) {
-    if (string[i] == "f") {
-        moveForward(rover);
-    }
-    else if (string[i] == "r") {
-        turnRight(rover);
-    }
-    else if (string[i] == "l") {
-        turnLeft(rover);
-    }
-    else if (string[i] == "b") {
-        moveBackward(rover);
-    }
-    else {
-      console.error("Hey, ese no es un movimiento");
-    }
-  }
 }
