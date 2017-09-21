@@ -14,15 +14,17 @@ var rover = {
 var grid = [
   ["X", 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
   [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
+  ["rocas", 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
+  [0, 0, 0, 0, "rocas", 0 ,0 ,0 ,0 ,0],
   [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
   [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
   [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
+  [0, 0, "rocas", 0, 0, 0 ,0 ,0 ,0 ,0],
   [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
-  [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
-  [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
-  [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
-  [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
+  [0, 0, 0, 0, 0, 0 ,"rocas" ,0 ,0 ,0],
 ]
+
+console.table(grid);
 
 window.onload = function(){
   table(grid);
@@ -97,6 +99,9 @@ function moveForward(rover){
   if (checkForwardBounderies(rover))
     return console.error("Hey, con ese movimiento el rover se precipitará");
 
+  if (checkObstaculesForward(rover))
+    return console.error("Hey, rocas");
+
   grid[rover.position[1]][rover.position[0]] = 0;
   switch (rover.direction) {
     case "N":
@@ -138,6 +143,9 @@ function moveBackward(rover){
   if (checkBackwardBounderies(rover))
     return console.error("Hey, con ese movimiento el rover se precipitará");
 
+  if (checkObstaculesBackward(rover))
+    return console.error("Hey, rocas");
+
   grid[rover.position[1]][rover.position[0]] = 0
   switch (rover.direction) {
     case "N":
@@ -156,6 +164,40 @@ function moveBackward(rover){
   grid[rover.position[1]][rover.position[0]] = "X";
   table(grid);
   rover.travelLog.push([rover.position[1], rover.position[0]]);
+}
+
+function checkObstaculesBackward(rover){
+  switch (rover.direction) {
+    case "N":
+      return grid[rover.position[1] + 1][rover.position[0]] == "rocas";
+      break;
+    case "E":
+      return grid[rover.position[1]][rover.position[0] - 1] == "rocas";
+      break;
+    case "S":
+      return grid[rover.position[1] - 1][rover.position[0]] == "rocas";
+      break;
+    case "W":
+      return grid[rover.position[1]][rover.position[0] + 1] == "rocas";
+      break;
+    }
+}
+
+function checkObstaculesForward(rover){
+  switch (rover.direction) {
+    case "N":
+      return grid[rover.position[1] - 1][rover.position[0]] == "rocas";
+      break;
+    case "E":
+      return grid[rover.position[1]][rover.position[0] + 1] == "rocas";
+      break;
+    case "S":
+      return grid[rover.position[1] + 1][rover.position[0]] == "rocas";
+      break;
+    case "W":
+      return grid[rover.position[1]][rover.position[0] - 1] == "rocas";
+      break;
+    }
 }
 
 function move(string){
