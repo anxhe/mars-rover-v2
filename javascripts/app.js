@@ -1,50 +1,46 @@
 // Rover Object Goes Here
 // ======================
 
-var moveFunc = function(string){
-  for(var i = 0; i < string.length; i++) {
-    if (string[i] == "f") {
-        moveForward(this);
-    }
-    else if (string[i] == "r") {
-        turnRight(this);
-    }
-    else if (string[i] == "l") {
-        turnLeft(this);
-    }
-    else if (string[i] == "b") {
-        moveBackward(this);
-    }
-    else {
-      console.error("Hey, ese no es un movimiento");
+class Rover {
+
+  constructor(name, symbol, position) {
+    this.name = name;
+    this.symbol = symbol;
+    this.position = position;
+    this.direction = "N";
+    this.travelLog = [];
+  }
+
+  move(string) {
+    for(var i = 0; i < string.length; i++) {
+      if (string[i] == "f") {
+          moveForward(this);
+      }
+      else if (string[i] == "r") {
+          turnRight(this);
+      }
+      else if (string[i] == "l") {
+          turnLeft(this);
+      }
+      else if (string[i] == "b") {
+          moveBackward(this);
+      }
+      else {
+        console.error("Hey, ese no es un movimiento");
+      }
     }
   }
 }
 
-var rover_x = {
-  name: "Pathfinder",
-  symbol: "🚘 ",
-  move: moveFunc,
-  direction: "N",
-  position: [0,0],
-  travelLog: []
-}
-
-var rover_t = {
-  name: "Curiosity",
-  symbol: '🚍',
-  move: moveFunc,
-  direction: "N",
-  position: [0,9],
-  travelLog: []
-}
+var pathfinder = new Rover("pathfinder", "🚘 ", [0,0]);
+var curiosity = new Rover("Curiosity", "🚍", [0,9]);
 
 // ======================
 // Grid
 // ======================
 
 var grid = [
-  [rover_x.symbol, null, null, null, null, "🌳",null ,null ,null ,null],
+  [pathfinder.symbol, null, null, null, null, "🌳",null ,null ,null ,null],
   [null, null, null, null, null, "🌳" ,null ,null ,null ,null],
   ["⛰", null, null, null, null, null ,null ,null ,null ,null],
   [null, null, null, null, "🌳", null ,null ,null ,"⛰" ,null],
@@ -53,7 +49,7 @@ var grid = [
   [null, "🌳", "⛰", null, null, null ,null ,null ,"🌳",null],
   [null, null, "⛰", null, null, null ,null ,null ,null ,null],
   [null, null, null, null, null, null ,"🌳" ,null ,null ,null],
-  [rover_t.symbol, null, null, null, null, null ,"⛰" ,null ,null ,null],
+  [curiosity.symbol, null, null, null, null, null ,"⛰" ,null ,null ,null],
 ]
 
 window.onload = function(){
