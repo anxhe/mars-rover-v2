@@ -17,7 +17,7 @@ class Rover {
           moveForward(this);
       }
       else if (string[i] == "r") {
-          turnRight(this);
+          this.turnRight();
       }
       else if (string[i] == "l") {
           this.turnLeft();
@@ -44,6 +44,24 @@ class Rover {
         this.direction = "E";
         break;
       case "E":
+        this.direction = "N";
+        break;
+    }
+  }
+
+  turnRight(){
+    console.log("turnRight was called!");
+    switch (this.direction) {
+      case "N":
+        this.direction = "E";
+        break;
+      case "E":
+        this.direction = "S";
+        break;
+      case "S":
+        this.direction = "W";
+        break;
+      case "W":
         this.direction = "N";
         break;
     }
@@ -85,24 +103,6 @@ function table(grid){
   }
   html += "</table>"
   document.body.innerHTML = html;
-}
-
-function turnRight(rover){
-  console.log("turnRight was called!");
-  switch (rover.direction) {
-    case "N":
-      rover.direction = "E";
-      break;
-    case "E":
-      rover.direction = "S";
-      break;
-    case "S":
-      rover.direction = "W";
-      break;
-    case "W":
-      rover.direction = "N";
-      break;
-  }
 }
 
 function checkForwardBounderies(rover){
