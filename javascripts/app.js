@@ -23,7 +23,7 @@ var moveFunc = function(string){
 
 var rover_x = {
   name: "Pathfinder",
-  symbol: "X",
+  symbol: "🚘 ",
   move: moveFunc,
   direction: "N",
   position: [0,0],
@@ -32,7 +32,7 @@ var rover_x = {
 
 var rover_t = {
   name: "Curiosity",
-  symbol: "T",
+  symbol: '🚍',
   move: moveFunc,
   direction: "N",
   position: [0,9],
@@ -44,30 +44,28 @@ var rover_t = {
 // ======================
 
 var grid = [
-  ["X", 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
-  [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
-  ["rocas", 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
-  [0, 0, 0, 0, "rocas", 0 ,0 ,0 ,0 ,0],
-  [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
-  [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
-  [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
-  [0, 0, "rocas", 0, 0, 0 ,0 ,0 ,0 ,0],
-  [0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0],
-  ["T", 0, 0, 0, 0, 0 ,"rocas" ,0 ,0 ,0],
+  [rover_x.symbol, null, null, null, null, "🌳",null ,null ,null ,null],
+  [null, null, null, null, null, "🌳" ,null ,null ,null ,null],
+  ["⛰", null, null, null, null, null ,null ,null ,null ,null],
+  [null, null, null, null, "🌳", null ,null ,null ,"⛰" ,null],
+  [null, null, null, null, null, null ,"⛰" ,null ,null ,null],
+  [null, null, null, null, null, null ,null ,null ,null ,null],
+  [null, "🌳", "⛰", null, null, null ,null ,null ,"🌳",null],
+  [null, null, "⛰", null, null, null ,null ,null ,null ,null],
+  [null, null, null, null, null, null ,"🌳" ,null ,null ,null],
+  [rover_t.symbol, null, null, null, null, null ,"⛰" ,null ,null ,null],
 ]
-
-console.table(grid);
 
 window.onload = function(){
   table(grid);
 }
 
 function table(grid){
-  var html = "<table>"
+  var html = '<table>';
   for (var row = 0; row < grid.length; row++){
     html += "<tr>"
     for (var col = 0; col < grid[row].length; col++){
-        html += "<td>" + grid[row][col] + "</td>";
+        html += "<td>" + (grid[row][col] || "") + "</td>";
     }
     html += "</tr>"
   }
@@ -203,22 +201,22 @@ function moveBackward(rover){
 function checkObstaculesBackward(rover){
   switch (rover.direction) {
     case "N":
-      if (grid[rover.position[1] + 1][rover.position[0]] != 0){
+      if (grid[rover.position[1] + 1][rover.position[0]] != null){
         return grid[rover.position[1] + 1][rover.position[0]];
       }
       break;
     case "E":
-      if (grid[rover.position[1]][rover.position[0] - 1] != 0){
+      if (grid[rover.position[1]][rover.position[0] - 1] != null){
         return grid[rover.position[1]][rover.position[0] - 1];
       }
       break;
     case "S":
-      if (grid[rover.position[1] - 1][rover.position[0]] != 0){
+      if (grid[rover.position[1] - 1][rover.position[0]] != null){
         return grid[rover.position[1] - 1][rover.position[0]];
       }
       break;
     case "W":
-      if (grid[rover.position[1]][rover.position[0] + 1] != 0){
+      if (grid[rover.position[1]][rover.position[0] + 1] != null){
         return grid[rover.position[1]][rover.position[0] + 1];
       }
       break;
@@ -228,22 +226,22 @@ function checkObstaculesBackward(rover){
 function checkObstaculesForward(rover){
   switch (rover.direction) {
     case "N":
-      if (grid[rover.position[1] - 1][rover.position[0]] != 0){
+      if (grid[rover.position[1] - 1][rover.position[0]] != null){
         return grid[rover.position[1] - 1][rover.position[0]];
       }
       break;
     case "E":
-      if (grid[rover.position[1]][rover.position[0] + 1] != 0){
+      if (grid[rover.position[1]][rover.position[0] + 1] != null){
         return grid[rover.position[1]][rover.position[0] + 1];
       }
       break;
     case "S":
-      if (grid[rover.position[1] + 1][rover.position[0]] != 0){
+      if (grid[rover.position[1] + 1][rover.position[0]] != null){
         return grid[rover.position[1] + 1][rover.position[0]];
       }
       break;
     case "W":
-      if (grid[rover.position[1]][rover.position[0] - 1] != 0){
+      if (grid[rover.position[1]][rover.position[0] - 1] != null){
         return grid[rover.position[1]][rover.position[0] - 1];
       }
       break;

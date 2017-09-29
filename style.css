@@ -1,0 +1,17 @@
+
+table {
+  margin: 7% auto;
+  border-spacing: 0px;
+}
+
+table td {
+  border-top-width: thin;
+  border-top-style: dashed;
+  border-right-width: thin;
+  border-right-style: dashed;
+  border-color: white;
+  background-color: #c6825f;
+  height: 55px;
+  text-align: center;
+  width: 55px;
+}
