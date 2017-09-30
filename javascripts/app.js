@@ -23,7 +23,7 @@ class Rover {
           this.turnLeft();
       }
       else if (string[i] == "b") {
-          moveBackward(this);
+          this.moveBackward();
       }
       else {
         console.error("Hey, ese no es un movimiento");
@@ -49,7 +49,7 @@ class Rover {
     }
   }
 
-  turnRight(){
+  turnRight() {
     console.log("turnRight was called!");
     switch (this.direction) {
       case "N":
@@ -67,7 +67,7 @@ class Rover {
     }
   }
 
-  moveForward(){
+  moveForward() {
     console.log("moveForward was called");
     if (checkForwardBounderies(this))
       return console.error("Hey, con ese movimiento el rover se precipitará");
@@ -96,6 +96,36 @@ class Rover {
     table(grid);
     this.travelLog.push([this.position[1], this.position[0]]);
   }
+
+  moveBackward() {
+    console.log("moveBackward was called");
+    if (checkBackwardBounderies(this))
+      return console.error("Hey, con ese movimiento el rover se precipitará");
+
+    var obstacule = checkObstaculesBackward(this)
+    if (obstacule)
+      return console.error("Hey, que te chocas con " + obstacule);
+
+    grid[this.position[1]][this.position[0]] = 0
+    switch (this.direction) {
+      case "N":
+        this.position[1] += 1;
+        break;
+      case "E":
+        this.position[0] -= 1;
+        break;
+      case "S":
+        this.position[1] -= 1;
+        break;
+      case "W":
+        this.position[0] += 1;
+        break;
+      }
+    grid[this.position[1]][this.position[0]] = this.symbol;
+    table(grid);
+    this.travelLog.push([this.position[1], this.position[0]]);
+  }
+
 }
 
 var pathfinder = new Rover("pathfinder", "🚘 ", [0,0]);
@@ -163,35 +193,6 @@ function checkBackwardBounderies(rover){
   else if (rover.direction == "W" && rover.position[0] == 9){
     return true;
   }
-}
-
-function moveBackward(rover){
-  console.log("moveBackward was called");
-  if (checkBackwardBounderies(rover))
-    return console.error("Hey, con ese movimiento el rover se precipitará");
-
-  var obstacule = checkObstaculesBackward(rover)
-  if (obstacule)
-    return console.error("Hey, que te chocas con " + obstacule);
-
-  grid[rover.position[1]][rover.position[0]] = 0
-  switch (rover.direction) {
-    case "N":
-      rover.position[1] += 1;
-      break;
-    case "E":
-      rover.position[0] -= 1;
-      break;
-    case "S":
-      rover.position[1] -= 1;
-      break;
-    case "W":
-      rover.position[0] += 1;
-      break;
-    }
-  grid[rover.position[1]][rover.position[0]] = rover.symbol;
-  table(grid);
-  rover.travelLog.push([rover.position[1], rover.position[0]]);
 }
 
 function checkObstaculesBackward(rover){
