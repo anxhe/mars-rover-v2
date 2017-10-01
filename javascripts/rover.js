@@ -67,14 +67,14 @@ class Rover {
 
   moveForward() {
     console.log("moveForward was called");
-    if (checkForwardBounderies(this))
+    if (grid.checkForwardBounderies(this))
       return console.error("Hey, con ese movimiento el rover se precipitará");
 
-    var obstacule = checkObstaculesForward(this);
+    var obstacule = grid.checkObstaculesForward(this);
     if (obstacule)
       return console.error("Hey, que te chocas con " + obstacule);
 
-    grid[this.position[1]][this.position[0]] = 0;
+    grid.context[this.position[1]][this.position[0]] = 0;
     switch (this.direction) {
       case "N":
         this.position[1] -= 1;
@@ -90,21 +90,21 @@ class Rover {
         break;
       }
 
-    grid[this.position[1]][this.position[0]] = this.symbol;
-    table(grid);
+    grid.context[this.position[1]][this.position[0]] = this.symbol;
+    grid.draw();
     this.travelLog.push([this.position[1], this.position[0]]);
   }
 
   moveBackward() {
     console.log("moveBackward was called");
-    if (checkBackwardBounderies(this))
+    if (grid.checkBackwardBounderies(this))
       return console.error("Hey, con ese movimiento el rover se precipitará");
 
-    var obstacule = checkObstaculesBackward(this)
+    var obstacule = grid.checkObstaculesBackward(this)
     if (obstacule)
       return console.error("Hey, que te chocas con " + obstacule);
 
-    grid[this.position[1]][this.position[0]] = 0
+    grid.context[this.position[1]][this.position[0]] = 0
     switch (this.direction) {
       case "N":
         this.position[1] += 1;
@@ -119,8 +119,8 @@ class Rover {
         this.position[0] += 1;
         break;
       }
-    grid[this.position[1]][this.position[0]] = this.symbol;
-    table(grid);
+    grid.context[this.position[1]][this.position[0]] = this.symbol;
+    grid.draw();
     this.travelLog.push([this.position[1], this.position[0]]);
   }
 }
