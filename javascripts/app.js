@@ -1,15 +1,12 @@
-// Rover Object Goes Here
-// ======================
 
-var pathfinder = new Rover("pathfinder", "🚘 ", [0,0]);
-var curiosity = new Rover("Curiosity", "🚍", [0,9]);
+window.onload = function() {
+  var grid = new Grid();
 
-// ======================
-// Grid
-// ======================
+  var oportunity = new Rover("Oportunity", "🚘 ", [0,0]);
+  var curiosity = new Rover("Curiosity", "🚍", [0,9]);
 
-var grid = new Grid();
+  grid.addObject(oportunity);
+  grid.addObject(curiosity);
 
-window.onload = function(){
   grid.draw();
 }

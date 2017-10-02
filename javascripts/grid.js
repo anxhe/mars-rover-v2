@@ -3,7 +3,7 @@ class Grid {
 
   constructor() {
     this.context = [
-      [pathfinder.symbol, null, null, null, null, "🌳",null ,null ,null ,null],
+      [null, null, null, null, null, "🌳",null ,null ,null ,null],
       [null, null, null, null, null, "🌳" ,null ,null ,null ,null],
       ["⛰", null, null, null, null, null ,null ,null ,null ,null],
       [null, null, null, null, "🌳", null ,null ,null ,"⛰" ,null],
@@ -14,6 +14,10 @@ class Grid {
       [null, null, null, null, null, null ,"🌳" ,null ,null ,null],
       [null, null, null, null, null, null ,"⛰" ,null ,null ,null],
     ]
+  }
+
+  addObject(object) {
+    this.context[object.position[1]][object.position[0]] = object.symbol;
   }
 
   draw() {
