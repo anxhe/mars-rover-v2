@@ -10,6 +10,13 @@ var keys = {
   RIGHT: 39
 }
 
+var message = {
+  INVALID: "<br><span id='sms'>Hey, ese no es un movimiento válido<span>",
+  BOUNDARIES: "<br><span id='sms'> Hey, que te caes..!! Tal parece Marte es un planeta plano 🤔 </span>",
+  OBSTACULE: function(obs) {
+    return "<br><span id='sms'> Hey, que te chocas con " + obs + "</span>";
+  }
+}
 
 window.onload = function() {
 

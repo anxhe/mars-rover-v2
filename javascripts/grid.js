@@ -16,8 +16,15 @@ class Grid {
     ]
   }
 
-  addObject(object) {
-    this.context[object.position[1]][object.position[0]] = object.symbol;
+  addObject(object, message) {
+    if (message) {
+      this.context[object.position[1]][object.position[0]] = object.avatar + message;
+      grid.draw();
+    }
+    else {
+      this.context[object.position[1]][object.position[0]] = object.avatar;
+      grid.draw();
+    }
   }
 
   draw() {

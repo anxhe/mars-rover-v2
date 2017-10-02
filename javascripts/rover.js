@@ -28,8 +28,13 @@ class Rover {
         this.moveBackward();
     }
     else {
-      console.error("Hey, ese no es un movimiento");
+      this.error(message.INVALID);
     }
+  }
+
+  error(text) {
+    grid.addObject(this, text);
+    console.error("Desplazate hacia otro lugar");
   }
 
   turnLeft() {
@@ -52,6 +57,7 @@ class Rover {
         this.avatar = "⬆️" + "<br>" + this.symbol;
         break;
     }
+    grid.addObject(this);
   }
 
   turnRight() {
@@ -74,16 +80,17 @@ class Rover {
         this.avatar = "⬆️" + "<br>" + this.symbol;
         break;
     }
+    grid.addObject(this);
   }
 
   moveForward() {
     console.log("moveForward was called");
     if (grid.checkForwardBounderies(this))
-      return console.error("Hey, con ese movimiento el rover se precipitará");
+      return this.error(message.BOUNDARIES);
 
     var obstacule = grid.checkObstaculesForward(this);
     if (obstacule)
-      return console.error("Hey, que te chocas con " + obstacule);
+      return this.error(message.OBSTACULE(obstacule));
 
     grid.context[this.position[1]][this.position[0]] = null;
     switch (this.direction) {
@@ -101,19 +108,18 @@ class Rover {
         break;
       }
 
-    grid.context[this.position[1]][this.position[0]] = this.symbol;
-    grid.draw();
-    this.travelLog.push([this.position[1], this.position[0]]);
+    grid.addObject(this);
+    this.travel();
   }
 
   moveBackward() {
     console.log("moveBackward was called");
     if (grid.checkBackwardBounderies(this))
-      return console.error("Hey, con ese movimiento el rover se precipitará");
+      return this.error(message.BOUNDARIES);
 
-    var obstacule = grid.checkObstaculesBackward(this)
+    var obstacule = grid.checkObstaculesBackward(this);
     if (obstacule)
-      return console.error("Hey, que te chocas con " + obstacule);
+      return this.error(message.OBSTACULE(obstacule));
 
     grid.context[this.position[1]][this.position[0]] = null;
     switch (this.direction) {
@@ -130,8 +136,12 @@ class Rover {
         this.position[0] += 1;
         break;
       }
-    grid.context[this.position[1]][this.position[0]] = this.symbol;
-    grid.draw();
+
+    grid.addObject(this);
+    this.travel();
+  }
+
+  travel() {
     this.travelLog.push([this.position[1], this.position[0]]);
   }
 }
