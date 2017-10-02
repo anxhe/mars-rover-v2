@@ -6,6 +6,7 @@ class Rover {
     this.symbol = symbol;
     this.position = position;
     this.direction = "N";
+    this.avatar = "⬆️" + "<br>" + this.symbol;
     this.travelLog = [];
   }
 
@@ -14,8 +15,6 @@ class Rover {
   }
 
   move(event) {
-    console.log(event.keyCode);
-
     if (event.keyCode == keys.UP) {
         this.moveForward();
     }
@@ -38,15 +37,19 @@ class Rover {
     switch (this.direction) {
       case "N":
         this.direction = "W";
+        this.avatar = "⬅️ " + this.symbol;
         break;
       case "W":
         this.direction = "S";
+        this.avatar = this.symbol + "<br>" + "⬇️";
         break;
       case "S":
         this.direction = "E";
+        this.avatar = this.symbol + " ➡️";
         break;
       case "E":
         this.direction = "N";
+        this.avatar = "⬆️" + "<br>" + this.symbol;
         break;
     }
   }
@@ -56,15 +59,19 @@ class Rover {
     switch (this.direction) {
       case "N":
         this.direction = "E";
+        this.avatar = this.symbol + " ➡️";
         break;
       case "E":
         this.direction = "S";
+        this.avatar = this.symbol + "<br>" + "⬇️";
         break;
       case "S":
         this.direction = "W";
+        this.avatar = "⬅️ " + this.symbol;
         break;
       case "W":
         this.direction = "N";
+        this.avatar = "⬆️" + "<br>" + this.symbol;
         break;
     }
   }
@@ -78,7 +85,7 @@ class Rover {
     if (obstacule)
       return console.error("Hey, que te chocas con " + obstacule);
 
-    grid.context[this.position[1]][this.position[0]] = 0;
+    grid.context[this.position[1]][this.position[0]] = null;
     switch (this.direction) {
       case "N":
         this.position[1] -= 1;
@@ -108,7 +115,7 @@ class Rover {
     if (obstacule)
       return console.error("Hey, que te chocas con " + obstacule);
 
-    grid.context[this.position[1]][this.position[0]] = 0
+    grid.context[this.position[1]][this.position[0]] = null;
     switch (this.direction) {
       case "N":
         this.position[1] += 1;

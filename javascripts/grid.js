@@ -82,7 +82,7 @@ class Grid {
         break;
       case "W":
         if (this.context[rover.position[1]][rover.position[0] + 1] != null){
-          return this.context[rover.position[1]][rover.position[0]];
+          return this.context[rover.position[1]][rover.position[0] + 1];
         }
         break;
       }
