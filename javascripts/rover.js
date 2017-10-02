@@ -9,23 +9,27 @@ class Rover {
     this.travelLog = [];
   }
 
-  move(string) {
-    for(var i = 0; i < string.length; i++) {
-      if (string[i] == "f") {
-          this.moveForward();
-      }
-      else if (string[i] == "r") {
-          this.turnRight();
-      }
-      else if (string[i] == "l") {
-          this.turnLeft();
-      }
-      else if (string[i] == "b") {
-          this.moveBackward();
-      }
-      else {
-        console.error("Hey, ese no es un movimiento");
-      }
+  activate() {
+    document.addEventListener("keyup", this.move.bind(this));
+  }
+
+  move(event) {
+    console.log(event.keyCode);
+
+    if (event.keyCode == keys.UP) {
+        this.moveForward();
+    }
+    else if (event.keyCode == keys.RIGHT) {
+        this.turnRight();
+    }
+    else if (event.keyCode == keys.LEFT) {
+        this.turnLeft();
+    }
+    else if (event.keyCode == keys.DOWN) {
+        this.moveBackward();
+    }
+    else {
+      console.error("Hey, ese no es un movimiento");
     }
   }
 
